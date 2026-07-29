@@ -1,20 +1,27 @@
-const express=require("express")
-const bodyParser=require("body-parser")
-const app=express()
-const user=require("./routes/users.js")
-const product=require("./routes/product")
-const category=require("./routes/category")
-const order=require("./routes/orders")
-const cart=require("./routes/cart")
-const cors=require("cors")
+import express from "express";
+import cors from "cors";
 
-app.use(bodyParser.json())
+import user from "./routes/user.route.js";
+import product from "./routes/product.route.js";
+import category from "./routes/category.route.js";
+import order from "./routes/order.route.js";
+import cart from "./routes/cart.route.js";
 
-app.use(cors())
-app.use(user)
-app.use("/products",product)
-app.use("/categories",category)
-app.use("/order",order)
-app.use("/cart",cart)
+const app = express();
 
-module.exports=app
+app.use(cors());
+app.use(express.json());
+
+app.use("/api/user", user);
+app.use("/api/product", product);
+app.use("/api/order", order);
+app.use("/api/category", category);
+app.use("/api/cart", cart);
+
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "E-Commerce API is running",
+  });
+});
+
+export default app;
